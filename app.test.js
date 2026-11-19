@@ -1,6 +1,6 @@
-const { describe, it, expect } = require('vitest');
-const request = require('supertest');
-const app = require('./app');
+﻿import { describe, it, expect } from 'vitest';
+import request from 'supertest';
+import app from './app.js';
 
 describe('GET /health', () => {
   it('returns status ok', async () => {
