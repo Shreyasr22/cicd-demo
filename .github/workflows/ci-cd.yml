@@ -28,3 +28,23 @@ jobs:
 
       - name: Verify production start
         run: timeout 5s npm start || true
+
+  package-release:
+    needs: build-and-test
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Package deployable release archive
+        run: |
+          mkdir -p dist
+          zip -r dist/cicd-demo-v1.0.0.zip app.js server.js package.json package-lock.json
+
+      - name: Upload release artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: cicd-demo-release-v1.0.0
+          path: dist/cicd-demo-v1.0.0.zip
